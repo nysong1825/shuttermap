@@ -187,7 +187,11 @@ main {
 .sheet-body { padding: 16px; }
 .sheet-meta { margin: 0 0 4px; font-size: 13px; color: var(--text-2); font-weight: 600; }
 .sheet-tags { margin: 0 0 16px; font-size: 16px; font-weight: 600; color: var(--accent); }
-.sheet-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.sheet-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-items: end; }
+.sheet-buy { display: flex; flex-direction: column; gap: 6px; }
+/* 제품 보기보다 작은 사고 싶어요 버튼 */
+.sheet-buy .sheet-want { min-height: 32px; padding: 0 12px; font-size: 13px; background: #fff; color: var(--accent); border: 1.5px solid var(--accent); border-radius: 12px; }
+.sheet-buy .sheet-want:disabled { opacity: 0.6; }
 
 .btn {
   display: inline-flex;

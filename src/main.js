@@ -69,6 +69,14 @@ document.querySelector('.sheet-product').addEventListener('click', (e) => {
   track('product_click', { model: e.currentTarget.dataset.model, from: 'sheet' });
 });
 
+// 핀 시트의 [사고 싶어요]: 지금 보고 있는 카메라에 대한 관심 표시
+document.querySelector('.sheet-want').addEventListener('click', (e) => {
+  const btn = e.currentTarget;
+  track('want_to_buy', { model: btn.dataset.model, place: btn.dataset.place, from: 'sheet', ...tasteParams(currentProfile) });
+  btn.disabled = true;
+  btn.textContent = '✔ 반영됐어요';
+});
+
 function tryModel(modelId) {
   showScreen('convert');
   convert.selectModel(modelId);

@@ -52,6 +52,12 @@ export function openSheet(pin, onTry) {
   link.href = model ? buildProductUrl(model, 'sheet') : 'https://huug.kr/';
   link.dataset.model = pin.model;
 
+  const want = el.querySelector('.sheet-want');
+  want.dataset.model = pin.model;
+  want.dataset.place = pin.place;
+  want.disabled = false;
+  want.textContent = '사고 싶어요';
+
   el.querySelector('.sheet-try').onclick = () => { closeSheet(); onTry(pin.model); };
 
   el.hidden = false;
