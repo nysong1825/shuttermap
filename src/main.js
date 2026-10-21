@@ -45,15 +45,19 @@ for (const btn of document.querySelectorAll('.tabbar button')) {
 
 const INTRO_KEY = 'shuttermap_intro_seen';
 
+// 셔터맵 소개 알럿: 스플래시(1초) 다음, 취향 선택 화면 위에 처음 한 번만 띄운다.
 function initIntro() {
   const intro = document.getElementById('intro');
-  let seen = false;
-  try { seen = localStorage.getItem(INTRO_KEY) === '1'; } catch {}
-  intro.hidden = seen;
+  intro.hidden = true;
   intro.querySelector('.intro-start').addEventListener('click', () => {
     intro.hidden = true;
     try { localStorage.setItem(INTRO_KEY, '1'); } catch {}
   });
+  return () => {
+    let seen = false;
+    try { seen = localStorage.getItem(INTRO_KEY) === '1'; } catch {}
+    if (!seen) intro.hidden = false;
+  };
 }
 
 const convert = initConvert(document.getElementById('screen-convert'), {
@@ -71,7 +75,7 @@ function tryModel(modelId) {
 }
 
 initSheet();
-initIntro();
+const showIntro = initIntro();
 mapView = initMap(document.getElementById('map'), PINS, (pin) => {
   track('pin_open', { model: pin.model, place: pin.place });
   openSheet(pin, tryModel);
@@ -128,5 +132,6 @@ const onboarding = initOnboarding(document.getElementById('onboarding'), {
   onComplete: enterMap,
   hasProfile: Boolean(savedProfile),
   onSkip: () => showMap(savedProfile),
+  onFirstStep: showIntro,
 });
 retaste.addEventListener('click', () => onboarding.reopen(loadProfile() ?? savedProfile));

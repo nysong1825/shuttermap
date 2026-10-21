@@ -2,11 +2,11 @@
 // 완료하면 onComplete(profile)을 부른다. 지도 화면 진입은 호출하는 쪽(main.js)이 맡는다.
 // hasProfile이면 스플래시 뒤에 취향 선택 대신 onSkip()을 부르고, reopen(profile)으로 취향을 다시 고르게 열 수 있다.
 
-const SPLASH_MS = 1800;
+const SPLASH_MS = 1000;
 const YEAR_MIN = 1960;
 const YEAR_MAX = 2015;
 
-export function initOnboarding(root, { onComplete, hasProfile = false, onSkip }) {
+export function initOnboarding(root, { onComplete, hasProfile = false, onSkip, onFirstStep }) {
   const splash = root.querySelector('.onb-splash');
   const steps = [...root.querySelectorAll('.onb-step')];
   const picks = {}; // group -> value
@@ -59,7 +59,11 @@ export function initOnboarding(root, { onComplete, hasProfile = false, onSkip })
     onComplete({ ...picks, birthYear: Number(year.value) });
   });
 
-  setTimeout(() => (hasProfile ? onSkip() : show(1)), SPLASH_MS);
+  setTimeout(() => {
+    if (hasProfile) { onSkip(); return; }
+    show(1);
+    onFirstStep?.(); // 취향 선택 화면이 뜬 뒤에 셔터맵 소개 알럿을 띄운다
+  }, SPLASH_MS);
   refresh();
 
   return {
