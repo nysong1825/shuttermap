@@ -23,7 +23,14 @@ export function initMap(el, pins, onPinSelect) {
   }).addTo(map);
 
   // 핀 = 해당 작례를 찍은 카메라 디자인 + 이름
-  const markers = pins.map((pin) => {
+  // 같은 장소·같은 카메라는 핀 하나로 묶고, 사진은 시트에서 넘겨 본다
+  const groups = new Map();
+  for (const pin of pins) {
+    const key = `${pin.place}|${pin.model}`;
+    if (!groups.has(key)) groups.set(key, { ...pin, photos: [] });
+    groups.get(key).photos.push(pin);
+  }
+  const markers = [...groups.values()].map((pin) => {
     const model = MODEL_BY_ID.get(pin.model);
     const icon = L.divIcon({
       className: 'pin cam-pin',

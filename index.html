@@ -32,7 +32,13 @@
       <div id="sheet-backdrop" class="sheet-backdrop" hidden></div>
       <div id="sheet" class="sheet" role="dialog" aria-label="작례 사진" hidden>
         <button type="button" class="sheet-close" aria-label="닫기">×</button>
-        <div class="sheet-photo-wrap"><img class="sheet-photo" alt=""></div>
+        <div class="sheet-photo-wrap">
+          <img class="sheet-photo" alt="">
+          <button type="button" class="sheet-nav sheet-prev" aria-label="이전 사진">‹</button>
+          <button type="button" class="sheet-nav sheet-next" aria-label="다음 사진">›</button>
+          <span class="sheet-count"></span>
+        </div>
+        <div class="sheet-thumbs" hidden></div>
         <div class="sheet-body">
           <p class="sheet-meta"><span class="sheet-model"></span> · <span class="sheet-place"></span></p>
           <p class="sheet-caption"></p>
