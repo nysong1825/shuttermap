@@ -42,7 +42,7 @@ export function openSheet(pin, onTry) {
     t.type = 'button';
     t.className = 'sheet-thumb';
     t.setAttribute('aria-label', `${n + 1}번째 사진`);
-    t.innerHTML = `<img src="${p.photo}" alt="" loading="lazy">`;
+    t.innerHTML = `<img src="${p.photo.replace("assets/photos/", "assets/thumbs/")}" alt="" loading="lazy">`;
     t.addEventListener('click', () => showPhoto(n));
     thumbs.append(t);
   });
