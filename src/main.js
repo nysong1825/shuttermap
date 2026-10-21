@@ -2,6 +2,7 @@ import { MODELS } from './data/models.js';
 import { PINS } from './data/pins.js';
 import { initMap, renderModelChips } from './map.js';
 import { initSheet, openSheet } from './sheet.js';
+import { initConvert } from './convert.js';
 
 const SCREENS = ['map', 'convert'];
 let mapView;
@@ -21,8 +22,11 @@ for (const btn of document.querySelectorAll('.tabbar button')) {
   btn.addEventListener('click', () => showScreen(btn.dataset.screen));
 }
 
+const convert = initConvert(document.getElementById('screen-convert'));
+
 function tryModel(modelId) {
   showScreen('convert');
+  convert.selectModel(modelId);
 }
 
 initSheet();

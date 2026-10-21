@@ -35,6 +35,42 @@
     </section>
 
     <section id="screen-convert" class="screen" hidden>
+      <div class="convert">
+        <h2>내 사진도 휴그 카메라 느낌으로</h2>
+        <p class="convert-lead">사진은 서버로 전송되지 않고 이 화면 안에서만 바뀌어요.</p>
+
+        <label class="btn btn-primary convert-pick">
+          사진 고르기
+          <input class="convert-input" type="file" accept="image/jpeg,image/png" hidden>
+        </label>
+        <p class="convert-error" role="alert" hidden>JPG/PNG 사진을 올려주세요.</p>
+
+        <div class="convert-chips chips-inline" role="group" aria-label="카메라 모델"></div>
+
+        <div class="convert-empty">
+          <p>사진을 고르면 모델별 느낌을 바로 비교할 수 있어요.</p>
+        </div>
+
+        <div class="convert-result" hidden>
+          <div class="compare" style="--pos: 50%">
+            <span class="compare-label compare-label-left">원본</span>
+            <span class="compare-label compare-label-right">필터</span>
+          </div>
+          <input class="compare-slider" type="range" min="0" max="100" value="50" aria-label="원본과 필터 비교">
+          <div class="convert-actions">
+            <button type="button" class="btn btn-primary convert-save">저장하기</button>
+            <a class="btn btn-secondary convert-product" target="_blank" rel="noopener"></a>
+          </div>
+        </div>
+
+        <p class="convert-notice">필터 체험이며 실제 촬영 결과와 다를 수 있음</p>
+      </div>
+
+      <div class="save-overlay" role="dialog" aria-label="이미지 저장" hidden>
+        <p>이미지를 길게 눌러 저장하세요</p>
+        <img alt="변환된 사진">
+        <button type="button" class="btn btn-secondary save-overlay-close">닫기</button>
+      </div>
     </section>
   </main>
 

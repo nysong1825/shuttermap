@@ -63,3 +63,17 @@ test('alpha channel is never changed', () => {
   applyFilter(data, 1, 1, { ...NEUTRAL, brightness: 1.5, noise: 1, vignette: 1 }, 3);
   assert.equal(data[3], 77);
 });
+
+import { fitWithin } from '../src/imageLoad.js';
+
+test('fitWithin shrinks 4000x3000 to 1600x1200', () => {
+  assert.deepEqual(fitWithin(4000, 3000, 1600), { width: 1600, height: 1200 });
+});
+
+test('fitWithin keeps 800x600', () => {
+  assert.deepEqual(fitWithin(800, 600, 1600), { width: 800, height: 600 });
+});
+
+test('fitWithin shrinks portrait 3000x4000 to 1200x1600', () => {
+  assert.deepEqual(fitWithin(3000, 4000, 1600), { width: 1200, height: 1600 });
+});
