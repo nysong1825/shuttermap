@@ -61,3 +61,13 @@ test('pin ids are unique', () => {
   const { pins } = run(['레트로 플립 디카/성수동_01.jpg', '클래식 디카/성수동_01.jpg']);
   assert.equal(new Set(pins.map((p) => p.id)).size, 2);
 });
+
+test('parses model/place/anyname.jpg (place folder) into pins', () => {
+  const { pins, warnings } = run(['클래식 디카/성수동/IMG00062.jpg', '클래식 디카/성수동/IMG00063.JPG', '클래식 디카/성수동/notes.txt']);
+  assert.equal(pins.length, 2);
+  assert.equal(warnings.length, 1);
+  assert.equal(pins[0].place, '성수동');
+  assert.equal(pins[0].model, 'classic');
+  assert.equal(pins[0].photo, `assets/photos/${encodeURIComponent('클래식 디카')}/${encodeURIComponent('성수동')}/IMG00062.jpg`);
+  assert.notEqual(pins[0].id, pins[1].id);
+});

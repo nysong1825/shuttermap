@@ -6,6 +6,7 @@ import { join, relative } from 'node:path';
 import { pathToFileURL, fileURLToPath } from 'node:url';
 
 const FILE_RULE = /^(.+)_(\d+)\.(jpe?g|png)$/i;
+const PHOTO_EXT = /\.(jpe?g|png)$/i;
 const OFFSET_DEG = 0.00035;  // 같은 장소 핀 간 거리(위도 기준 약 40m)
 const LNG_SCALE = 1.26;      // 서울 위도에서 경도 1도가 더 짧은 것을 보정
 const GOLDEN_ANGLE = 2.39996;
@@ -20,15 +21,24 @@ export function buildPins(files, places, models, { basePath = 'assets/photos/', 
   for (const raw of files) {
     const file = raw.normalize('NFC').replaceAll('\\', '/');
     const parts = file.split('/');
-    if (parts.length !== 2) { onWarn(`규칙 위반(모델 폴더 아님): ${file}`); continue; }
-    const [folder, name] = parts;
+    if (parts.length !== 2 && parts.length !== 3) { onWarn(`규칙 위반(모델 폴더 아님): ${file}`); continue; }
+    const folder = parts[0];
+    const name = parts[parts.length - 1];
 
     const model = byName.get(folder);
     if (!model) { onWarn(`모르는 모델 폴더: ${file}`); continue; }
 
-    const match = FILE_RULE.exec(name);
-    if (!match) { onWarn(`파일명 규칙 위반(장소_번호.jpg): ${file}`); continue; }
-    const [, place, num] = match;
+    // 두 가지 정리 방식을 받는다: 모델/장소_번호.jpg 또는 모델/장소/아무이름.jpg
+    let place, num;
+    if (parts.length === 3) {
+      if (!PHOTO_EXT.test(name)) { onWarn(`사진 파일 아님(jpg/png): ${file}`); continue; }
+      place = parts[1];
+      num = name.replace(PHOTO_EXT, '');
+    } else {
+      const match = FILE_RULE.exec(name);
+      if (!match) { onWarn(`파일명 규칙 위반(장소_번호.jpg): ${file}`); continue; }
+      [, place, num] = match;
+    }
 
     const center = places[place];
     if (!center) { onWarn(`장소 좌표 없음(places.js에 추가 필요): ${place} — ${file}`); continue; }
@@ -44,24 +54,19 @@ export function buildPins(files, places, models, { basePath = 'assets/photos/', 
       lat: round6(center.lat + r * Math.sin(angle)),
       lng: round6(center.lng + r * LNG_SCALE * Math.cos(angle)),
       model: model.id,
-      photo: `${basePath}${encodeURIComponent(folder)}/${encodeURIComponent(name)}`,
+      photo: basePath + parts.map(encodeURIComponent).join('/'),
       caption: `${place}에서 ${model.name}로 찍은 사진`,
     });
   }
   return pins;
 }
 
-function listFiles(dir) {
+function listFiles(dir, depth = 0, root = dir) {
   const out = [];
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     const full = join(dir, entry.name);
-    if (entry.isDirectory()) {
-      for (const f of readdirSync(full, { withFileTypes: true })) {
-        if (f.isFile()) out.push(relative(dir, join(full, f.name)));
-      }
-    } else if (entry.isFile()) {
-      out.push(entry.name);
-    }
+    if (entry.isDirectory() && depth < 2) out.push(...listFiles(full, depth + 1, root));
+    else if (entry.isFile()) out.push(relative(root, full));
   }
   return out;
 }
