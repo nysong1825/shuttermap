@@ -3,6 +3,7 @@ import { PINS } from './data/pins.js';
 import { initMap, renderModelChips } from './map.js';
 import { initSheet, openSheet } from './sheet.js';
 import { initConvert } from './convert.js';
+import { track } from './track.js';
 
 const SCREENS = ['map', 'convert'];
 let mapView;
@@ -22,7 +23,27 @@ for (const btn of document.querySelectorAll('.tabbar button')) {
   btn.addEventListener('click', () => showScreen(btn.dataset.screen));
 }
 
-const convert = initConvert(document.getElementById('screen-convert'));
+const INTRO_KEY = 'shuttermap_intro_seen';
+
+function initIntro() {
+  const intro = document.getElementById('intro');
+  let seen = false;
+  try { seen = localStorage.getItem(INTRO_KEY) === '1'; } catch {}
+  intro.hidden = seen;
+  intro.querySelector('.intro-start').addEventListener('click', () => {
+    intro.hidden = true;
+    try { localStorage.setItem(INTRO_KEY, '1'); } catch {}
+  });
+}
+
+const convert = initConvert(document.getElementById('screen-convert'), {
+  onConvert: (modelId) => track('photo_convert', { model: modelId }),
+  onProductClick: (modelId) => track('product_click', { model: modelId, from: 'convert' }),
+});
+
+document.querySelector('.sheet-product').addEventListener('click', (e) => {
+  track('product_click', { model: e.currentTarget.dataset.model, from: 'sheet' });
+});
 
 function tryModel(modelId) {
   showScreen('convert');
@@ -30,5 +51,9 @@ function tryModel(modelId) {
 }
 
 initSheet();
-mapView = initMap(document.getElementById('map'), PINS, (pin) => openSheet(pin, tryModel));
+initIntro();
+mapView = initMap(document.getElementById('map'), PINS, (pin) => {
+  track('pin_open', { model: pin.model, place: pin.place });
+  openSheet(pin, tryModel);
+});
 renderModelChips(document.getElementById('chips'), MODELS, (id) => mapView.setModelFilter(id));

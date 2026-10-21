@@ -84,7 +84,7 @@ main {
 .chips::-webkit-scrollbar { display: none; }
 .chip {
   flex: none;
-  min-height: 36px;
+  min-height: 44px;
   padding: 0 14px;
   border: 1px solid var(--line);
   border-radius: 999px;
@@ -125,7 +125,7 @@ main {
 .sheet-close {
   position: absolute;
   top: 10px; right: 10px;
-  width: 36px; height: 36px;
+  width: 44px; height: 44px;
   border: 0; border-radius: 50%;
   background: rgba(0, 0, 0, 0.5);
   color: #fff;
@@ -219,3 +219,29 @@ main {
 }
 .save-overlay[hidden] { display: none; }
 .save-overlay img { max-width: 100%; max-height: 70vh; border-radius: var(--radius); }
+
+/* 첫 방문 안내 */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.4);
+}
+.intro[hidden] { display: none; }
+.intro-card {
+  width: 100%;
+  max-width: 420px;
+  margin-bottom: env(safe-area-inset-bottom);
+  padding: 24px 20px 20px;
+  border-radius: 20px;
+  background: var(--surface);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+.intro-card h2 { margin: 0 0 8px; font-size: 26px; letter-spacing: -0.02em; }
+.intro-lead { margin: 0 0 12px; font-size: 16px; line-height: 1.5; }
+.intro-card ul { margin: 0 0 20px; padding-left: 18px; color: var(--text-2); font-size: 13px; line-height: 1.6; }
+.intro-start { width: 100%; }
