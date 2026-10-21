@@ -1,3 +1,5 @@
+import { logToSheet } from './sheetLog.js';
+
 // 측정 연결점. GA4(gtag)가 붙어 있으면 이벤트로 보내고, 없으면 콘솔에만 남긴다.
 
 export function initAnalytics(measurementId) {
@@ -12,8 +14,12 @@ export function initAnalytics(measurementId) {
   document.head.append(s);
 }
 
+// 구글 시트(폼)에도 한 줄씩 쌓는 이벤트: 취향 선택 완료 · 사고 싶어요 · 제품 보기 클릭
+const SHEET_EVENTS = new Set(['onboarding_complete', 'want_to_buy', 'product_click']);
+
 export function track(name, params = {}) {
   console.info(name, params);
+  if (SHEET_EVENTS.has(name)) logToSheet(name, params);
   if (typeof window.gtag === 'function') window.gtag('event', name, params);
 }
 
