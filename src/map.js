@@ -18,10 +18,14 @@ export function initMap(el, pins, onPinSelect) {
     maxZoom: MAX_ZOOM,
     maxBounds: region.pad(0.05),
     maxBoundsViscosity: 1,
-    zoomSnap: 0.1, // 정수 줌으로 맞추면 범위 밖(개성·천안 등)까지 보여서 소수 줌으로 딱 맞춘다
   });
-  map.fitBounds(region);
-  const minZoom = map.getZoom();
+  // 시작 화면: 인천~성남(경도 약 0.48°)이 한 화면에 들어오는 가장 큰 정수 줌.
+  // 마커 묶음(markercluster)이 소수 줌에서 핀을 빠뜨리는 문제가 있어 정수 줌만 쓴다.
+  const SPAN_LNG = 0.48;
+  const width = map.getSize().x;
+  let minZoom = MAX_ZOOM;
+  while (minZoom > 7 && (SPAN_LNG * 256 * 2 ** minZoom) / 360 > width) minZoom -= 1;
+  map.setView(region.getCenter(), minZoom);
   map.setMinZoom(minZoom);
 
   // 축소하면 아이콘을 작게, 확대할수록 커지다가 FULL_ICON_ZOOM에서 원래 크기
