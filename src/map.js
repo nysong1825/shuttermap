@@ -6,6 +6,9 @@ const MODEL_BY_ID = new Map(MODELS.map((m) => [m.id, m]));
 const REGION = [[37.40, 126.58], [37.66, 127.16]];
 const MAX_ZOOM = 15; // 동네 단위까지만 확대
 
+// 핀 아이콘 표시 너비(px). 모델마다 사진 비율이 달라서, 본체가 클래식 디카와 비슷한 크기로 보이도록 맞춘다.
+const ICON_WIDTH = { classic: 96, millennium: 96, western: 96, neo: 96, 'retro-digi': 96, flip270: 96, flip: 88, 'retro-flip': 80 };
+
 export function initMap(el, pins, onPinSelect) {
   const region = L.latLngBounds(REGION);
   const map = L.map(el, {
@@ -34,9 +37,9 @@ export function initMap(el, pins, onPinSelect) {
     const model = MODEL_BY_ID.get(pin.model);
     const icon = L.divIcon({
       className: 'pin cam-pin',
-      html: `<img src="${model.icon}" alt=""><span class="cam-name">${model.name}</span>`,
-      iconSize: [64, 56],
-      iconAnchor: [32, 28],
+      html: `<img src="${model.icon}" alt="" style="width:${ICON_WIDTH[model.id] ?? 96}px"><span class="cam-name">${model.name}</span>`,
+      iconSize: [104, 112],
+      iconAnchor: [52, 46],
     });
     const marker = L.marker([pin.lat, pin.lng], { icon, title: `${model.name} · ${pin.place}`, model: pin.model });
     marker.on('click', () => onPinSelect(pin));
@@ -53,8 +56,8 @@ export function initMap(el, pins, onPinSelect) {
       return L.divIcon({
         className: 'pin cam-cluster marker-cluster',
         html: `<span class="cam-stack n${ids.length}">${imgs}</span><span class="pin-count">${cluster.getChildCount()}</span>`,
-        iconSize: [72, 56],
-        iconAnchor: [36, 28],
+        iconSize: [120, 80],
+        iconAnchor: [60, 40],
       });
     },
   });
