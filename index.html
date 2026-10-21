@@ -19,6 +19,80 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div id="onboarding" class="onb" aria-label="시작 화면">
+    <section class="onb-splash" aria-label="huug shutter map">
+      <p class="onb-splash-sub">휴그 카메라 작례 지도</p>
+      <h1 class="onb-splash-title">huug shutter map</h1>
+      <img class="onb-splash-img" src="assets/splash-camera.png" alt="휴그 레트로 플립 디카" width="396" height="450">
+    </section>
+
+    <section class="onb-step" data-step="1" hidden>
+      <div class="onb-top">
+        <span class="onb-top-spacer"></span>
+        <div class="onb-progress" aria-hidden="true"><i style="width:50%"></i></div>
+      </div>
+      <div class="onb-body">
+        <p class="onb-count">1/2</p>
+        <h2 class="onb-title">카메라 취향을 선택해주세요.</h2>
+        <p class="onb-desc">항목별로 1개씩 골라주세요. 카메라 추천에만 활용돼요.</p>
+
+        <fieldset class="onb-group" data-group="design">
+          <legend>디자인</legend>
+          <div class="onb-options">
+            <button type="button" class="onb-opt" data-value="귀여움" aria-pressed="false">귀여움</button>
+            <button type="button" class="onb-opt" data-value="클래식" aria-pressed="false">클래식</button>
+            <button type="button" class="onb-opt" data-value="메탈릭" aria-pressed="false">메탈릭</button>
+          </div>
+        </fieldset>
+        <fieldset class="onb-group" data-group="look">
+          <legend>결과물 색감·느낌</legend>
+          <div class="onb-options">
+            <button type="button" class="onb-opt" data-value="레트로" aria-pressed="false">레트로</button>
+            <button type="button" class="onb-opt" data-value="선명함" aria-pressed="false">선명함</button>
+            <button type="button" class="onb-opt" data-value="쨍한색감" aria-pressed="false">쨍한 색감</button>
+          </div>
+        </fieldset>
+        <fieldset class="onb-group" data-group="price">
+          <legend>가격대</legend>
+          <div class="onb-options onb-options-2">
+            <button type="button" class="onb-opt" data-value="가성비" aria-pressed="false">가성비<small>~3만원대</small></button>
+            <button type="button" class="onb-opt" data-value="고기능" aria-pressed="false">고기능<small>~10만원대</small></button>
+          </div>
+        </fieldset>
+      </div>
+      <div class="onb-bottom">
+        <button type="button" class="onb-cta onb-next" disabled>선택완료</button>
+      </div>
+    </section>
+
+    <section class="onb-step" data-step="2" hidden>
+      <div class="onb-top">
+        <button type="button" class="onb-back" aria-label="이전">‹</button>
+        <div class="onb-progress" aria-hidden="true"><i style="width:100%"></i></div>
+      </div>
+      <div class="onb-body">
+        <p class="onb-count">2/2</p>
+        <h2 class="onb-title">추가 정보를 입력해주세요.</h2>
+        <p class="onb-desc">카메라 추천에만 활용돼요.</p>
+
+        <fieldset class="onb-group" data-group="gender">
+          <legend>성별</legend>
+          <div class="onb-options onb-options-2">
+            <button type="button" class="onb-opt" data-value="여성" aria-pressed="false">여성</button>
+            <button type="button" class="onb-opt" data-value="남성" aria-pressed="false">남성</button>
+          </div>
+        </fieldset>
+        <div class="onb-group">
+          <label class="onb-label" for="onb-year">출생년도</label>
+          <select id="onb-year" class="onb-select"></select>
+        </div>
+      </div>
+      <div class="onb-bottom">
+        <button type="button" class="onb-cta onb-done" disabled>완료</button>
+      </div>
+    </section>
+  </div>
+
   <header class="app-header">
     <h1>셔터맵</h1>
     <p class="subtitle">휴그 카메라 작례 지도</p>

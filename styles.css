@@ -333,3 +333,71 @@ main {
 main { top: 0; }
 .chips { top: calc(var(--header-h) + env(safe-area-inset-top) + 10px); }
 .convert { padding-top: calc(var(--header-h) + env(safe-area-inset-top) + 20px); }
+
+/* 온보딩 (스플래시 → 취향 선택 → 추가 정보) */
+.onb {
+  position: fixed; inset: 0;
+  z-index: 3000;
+  background: #fff;
+  display: flex; flex-direction: column;
+  padding-top: env(safe-area-inset-top);
+}
+.onb[hidden] { display: none; }
+.onb [hidden] { display: none !important; }
+
+.onb-splash {
+  flex: 1;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 6px;
+  animation: onb-in 0.6s ease both;
+}
+.onb-splash-sub { margin: 0; font-size: 14px; color: var(--text-2); letter-spacing: -0.01em; }
+.onb-splash-title { margin: 0; font-size: 34px; font-weight: 800; letter-spacing: -0.03em; }
+.onb-splash-img { width: 58%; max-width: 260px; height: auto; margin-top: 36px; }
+@keyframes onb-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+.onb-step { flex: 1; display: flex; flex-direction: column; min-height: 0; animation: onb-in 0.35s ease both; }
+.onb-top { display: flex; align-items: center; gap: 12px; padding: 12px 16px 0; }
+.onb-top-spacer, .onb-back { flex: none; width: 44px; height: 44px; }
+.onb-back { border: 0; background: none; font-size: 30px; line-height: 1; color: var(--text); }
+.onb-progress { flex: 1; height: 3px; background: #e5e5ea; border-radius: 2px; overflow: hidden; }
+.onb-progress i { display: block; height: 100%; background: var(--text); }
+
+.onb-body { flex: 1; overflow-y: auto; padding: 20px 24px; }
+.onb-count { margin: 0 0 6px; font-size: 12px; font-weight: 700; }
+.onb-title { margin: 0; font-size: 20px; font-weight: 700; letter-spacing: -0.02em; }
+.onb-desc { margin: 6px 0 22px; font-size: 13px; color: var(--text-2); }
+
+.onb-group { border: 0; margin: 0 0 22px; padding: 0; min-width: 0; }
+.onb-group legend, .onb-label { padding: 0; margin-bottom: 10px; font-size: 12px; font-weight: 600; color: var(--text-2); }
+.onb-label { display: block; }
+.onb-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.onb-options-2 { grid-template-columns: repeat(2, 1fr); }
+.onb-opt {
+  min-height: 52px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  border: 1px solid var(--line); border-radius: 12px;
+  background: #f4f4f6; color: var(--text-2);
+  font: inherit; font-size: 15px; font-weight: 600;
+}
+.onb-opt small { font-size: 11px; font-weight: 500; }
+.onb-opt[aria-pressed="true"] { background: #fff; color: var(--text); border: 2px solid var(--text); }
+
+.onb-select {
+  width: 100%; min-height: 48px; padding: 0 14px;
+  border: 1px solid var(--line); border-radius: 12px;
+  background: #f4f4f6; font: inherit; font-size: 15px; color: var(--text);
+}
+
+.onb-bottom { padding: 12px 24px calc(16px + env(safe-area-inset-bottom)); }
+.onb-cta {
+  width: 100%; min-height: 52px;
+  border: 0; border-radius: 12px;
+  background: #1c1c1e; color: #fff;
+  font: inherit; font-size: 16px; font-weight: 700;
+}
+.onb-cta:disabled { background: #d1d1d6; color: #8e8e93; }
+
+/* 내 취향 칩 (노란색) */
+.chip-mine { background: #ffd60a; border-color: #ffd60a; color: #1d1d1f; }
+.chip-mine[aria-pressed="true"] { background: #ffd60a; color: #1d1d1f; border-color: var(--text); box-shadow: 0 0 0 2px var(--text); }

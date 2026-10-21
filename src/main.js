@@ -3,6 +3,8 @@ import { PINS } from './data/pins.js';
 import { initMap, renderModelChips } from './map.js';
 import { initSheet, openSheet } from './sheet.js';
 import { initConvert } from './convert.js';
+import { initOnboarding } from './onboarding.js';
+import { matchModels } from './taste.js';
 import { initAnalytics, track } from './track.js';
 import { GA4_MEASUREMENT_ID } from './config.js';
 
@@ -63,4 +65,23 @@ mapView = initMap(document.getElementById('map'), PINS, (pin) => {
   track('pin_open', { model: pin.model, place: pin.place });
   openSheet(pin, tryModel);
 });
-renderModelChips(document.getElementById('chips'), MODELS, (id) => mapView.setModelFilter(id));
+// 내 취향 칩: 온보딩에서 고른 취향과 3개 중 2개 이상 일치하는 카메라만 지도에 보인다.
+let myTasteIds = [];
+const chips = renderModelChips(document.getElementById('chips'), MODELS, (id) => {
+  mapView.setModelFilter(id === 'mine' ? myTasteIds : id);
+  if (id === 'mine') track('my_taste_filter', { models: myTasteIds.join(',') });
+});
+
+const PROFILE_KEY = 'shuttermap_profile';
+
+function enterMap(profile) {
+  try { localStorage.setItem(PROFILE_KEY, JSON.stringify(profile)); } catch {}
+  track('onboarding_complete', { ...profile });
+  document.getElementById('intro').hidden = true; // 온보딩 직후 소개 팝업 겹침 방지
+  document.getElementById('onboarding').hidden = true;
+  showScreen('map');
+  myTasteIds = matchModels(MODELS, profile).map((r) => r.id);
+  chips.enableMine();
+  chips.select('mine');
+}
+initOnboarding(document.getElementById('onboarding'), { onComplete: enterMap });

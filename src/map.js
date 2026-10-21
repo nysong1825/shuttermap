@@ -81,9 +81,11 @@ export function initMap(el, pins, onPinSelect) {
   map.addLayer(layer);
 
   return {
-    setModelFilter(modelId) {
+    // 'all' | 모델 id | 모델 id 배열(내 취향처럼 여러 카메라)
+    setModelFilter(filter) {
+      const show = (id) => filter === 'all' || (Array.isArray(filter) ? filter.includes(id) : filter === id);
       layer.clearLayers();
-      layer.addLayers(markers.filter(({ pin }) => modelId === 'all' || pin.model === modelId).map((m) => m.marker));
+      layer.addLayers(markers.filter(({ pin }) => show(pin.model)).map((m) => m.marker));
     },
     invalidate() {
       map.invalidateSize();
@@ -91,20 +93,34 @@ export function initMap(el, pins, onPinSelect) {
   };
 }
 
+// '내 취향' 칩(노란색)은 온보딩을 마친 뒤 enableMine()으로 켠다. 반환한 select(id)로 칩을 코드에서 고를 수 있다.
 export function renderModelChips(container, models, onChange) {
-  const options = [{ id: 'all', name: '전체' }, ...models];
+  const options = [
+    { id: 'all', name: '전체' },
+    { id: 'mine', name: '내 취향', mine: true, hidden: true },
+    ...models,
+  ];
   container.innerHTML = '';
+  const buttons = new Map();
+  const select = (id) => {
+    for (const [bid, b] of buttons) b.setAttribute('aria-pressed', String(bid === id));
+    onChange(id);
+  };
   for (const opt of options) {
     const btn = document.createElement('button');
     btn.type = 'button';
-    btn.className = 'chip';
+    btn.className = opt.mine ? 'chip chip-mine' : 'chip';
     btn.textContent = opt.name;
+    btn.hidden = Boolean(opt.hidden);
     btn.setAttribute('aria-pressed', String(opt.id === 'all'));
-    btn.addEventListener('click', () => {
-      for (const b of container.children) b.setAttribute('aria-pressed', 'false');
-      btn.setAttribute('aria-pressed', 'true');
-      onChange(opt.id);
-    });
+    btn.addEventListener('click', () => select(opt.id));
+    buttons.set(opt.id, btn);
     container.append(btn);
   }
+  return {
+    select,
+    enableMine() {
+      buttons.get('mine').hidden = false;
+    },
+  };
 }
