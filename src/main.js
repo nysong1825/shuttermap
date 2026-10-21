@@ -12,7 +12,17 @@ import { GA4_MEASUREMENT_ID } from './config.js';
 initAnalytics(GA4_MEASUREMENT_ID);
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js').catch(() => {});
+  // 새 버전의 서비스워커가 넘겨받으면 한 번만 새로고침해서 옛 화면이 남지 않게 한다.
+  const hadController = !!navigator.serviceWorker.controller;
+  let reloaded = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!hadController || reloaded) return;
+    reloaded = true;
+    location.reload();
+  });
+  navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' })
+    .then((reg) => reg.update())
+    .catch(() => {});
 }
 
 const SCREENS = ['map', 'convert'];
