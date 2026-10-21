@@ -1,0 +1,71 @@
+:root {
+  --bg: #f5f5f7;
+  --surface: #ffffff;
+  --text: #1d1d1f;
+  --text-2: #6e6e73;
+  --line: rgba(0, 0, 0, 0.08);
+  --accent: #0071e3;
+  --chip-bg: rgba(255, 255, 255, 0.92);
+  --header-h: 56px;
+  --tabbar-h: 60px;
+  --radius: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+.app-header {
+  height: var(--header-h);
+  padding: 8px 16px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+.app-header h1 { margin: 0; font-size: 20px; font-weight: 700; letter-spacing: -0.02em; }
+.app-header .subtitle { margin: 0; font-size: 13px; color: var(--text-2); }
+
+main {
+  position: fixed;
+  top: var(--header-h);
+  bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom));
+  left: 0;
+  right: 0;
+}
+
+.screen { position: absolute; inset: 0; overflow-y: auto; }
+.screen[hidden] { display: none; }
+
+#map { position: absolute; inset: 0; }
+
+.tabbar {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  height: calc(var(--tabbar-h) + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: saturate(180%) blur(20px);
+  border-top: 1px solid var(--line);
+  z-index: 1000;
+}
+.tabbar button {
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-2);
+  min-height: 44px;
+}
+.tabbar button[aria-current="page"] { color: var(--accent); }

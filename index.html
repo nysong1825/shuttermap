@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>셔터맵</title>
+  <meta name="description" content="휴그 카메라 작례 지도 — 지도에서 작례를 보고 내 사진도 그 느낌으로">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <h1>셔터맵</h1>
+    <p class="subtitle">휴그 카메라 작례 지도</p>
+  </header>
+
+  <main>
+    <section id="screen-map" class="screen">
+      <div id="map" aria-label="작례 지도"></div>
+    </section>
+
+    <section id="screen-convert" class="screen" hidden>
+    </section>
+  </main>
+
+  <nav class="tabbar" aria-label="화면 전환">
+    <button type="button" data-screen="map" aria-current="page">지도</button>
+    <button type="button" data-screen="convert">내 사진 변환</button>
+  </nav>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>
