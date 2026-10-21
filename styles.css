@@ -98,15 +98,42 @@ main {
 }
 .chip[aria-pressed="true"] { background: var(--text); color: #fff; border-color: var(--text); }
 
-/* 사진 핀 */
-.pin img {
-  width: 44px; height: 44px;
-  border-radius: 50%;
-  border: 3px solid #fff;
-  object-fit: cover;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  background: #e8e8ed;
+/* 카메라 핀: 카메라 디자인 + 이름 */
+.pin { background: none; border: 0; }
+.cam-pin img {
+  display: block;
+  width: 64px; height: 42px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.35));
 }
+.cam-name {
+  position: absolute;
+  left: 50%; top: 40px;
+  transform: translateX(-50%);
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 16px;
+  white-space: nowrap;
+  color: var(--text);
+}
+.cam-stack { position: relative; display: block; width: 72px; height: 48px; }
+.cam-stack img {
+  position: absolute;
+  top: 4px;
+  width: 44px; height: 36px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.35));
+}
+.cam-stack.n1 img { left: 14px; width: 48px; }
+.cam-stack.n2 img:nth-child(1) { left: 2px;  transform: rotate(-8deg); }
+.cam-stack.n2 img:nth-child(2) { left: 26px; transform: rotate(6deg); }
+.cam-stack.n3 img:nth-child(1) { left: 0;    transform: rotate(-10deg); }
+.cam-stack.n3 img:nth-child(2) { left: 14px; top: 0; }
+.cam-stack.n3 img:nth-child(3) { left: 28px; transform: rotate(10deg); }
 
 /* 하단 시트 */
 .sheet-backdrop { position: absolute; inset: 0; z-index: 900; background: rgba(0, 0, 0, 0.25); }
@@ -121,7 +148,9 @@ main {
   box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.15);
 }
 .sheet[hidden], .sheet-backdrop[hidden] { display: none; }
-.sheet-photo { display: block; width: 100%; max-height: 50vh; object-fit: cover; background: #e8e8ed; }
+.sheet-photo-wrap { display: flex; justify-content: center; background: #ececf0; padding-top: 52px; }
+/* 원본 크기 유지: 확대하지 않고(작은 사진은 그대로), 큰 사진만 화면 안에 들어오게 축소 */
+.sheet-photo { display: block; width: auto; height: auto; max-width: 100%; max-height: 58vh; object-fit: contain; }
 .sheet-close {
   position: absolute;
   top: 10px; right: 10px;
@@ -247,10 +276,9 @@ main {
 .intro-start { width: 100%; }
 
 /* 묶음 핀 장수 배지 */
-.pin.marker-cluster { background: none; }
 .pin-count {
   position: absolute;
-  top: -6px; right: -6px;
+  top: 0; right: 0;
   min-width: 22px; height: 22px;
   padding: 0 6px;
   border-radius: 999px;
@@ -263,9 +291,9 @@ main {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 }
 
-/* 깔끔한 지도: 무채색·저대비 타일 위에 사진 핀만 돋보이게 */
+/* 깔끔한 지도: 색은 살리되 채도·대비를 낮춰 핀이 돋보이게 */
 .leaflet-container { background: #eef0f2; }
-.map-tiles { filter: grayscale(1) contrast(0.78) brightness(1.12); }
+.map-tiles { filter: saturate(0.8) contrast(0.92) brightness(1.05); }
 .leaflet-control-attribution { font-size: 10px; background: rgba(255, 255, 255, 0.7) !important; }
 
 /* 지도 위에 떠 있는 반투명 헤더 */

@@ -1,4 +1,6 @@
-import { FALLBACK_PHOTO } from './sheet.js';
+import { MODELS } from './data/models.js';
+
+const MODEL_BY_ID = new Map(MODELS.map((m) => [m.id, m]));
 
 // 지도 범위: 인천~서울~광명. 작례가 없는 지역까지 볼 필요가 없어 이 밖으로는 이동·축소를 막는다.
 const REGION = [[37.40, 126.58], [37.66, 127.16]];
@@ -20,30 +22,32 @@ export function initMap(el, pins, onPinSelect) {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors',
   }).addTo(map);
 
+  // 핀 = 해당 작례를 찍은 카메라 디자인 + 이름
   const markers = pins.map((pin) => {
+    const model = MODEL_BY_ID.get(pin.model);
     const icon = L.divIcon({
-      className: 'pin',
-      html: `<img src="${pin.photo}" alt="" onerror="this.onerror=null;this.src='${FALLBACK_PHOTO}'">`,
-      iconSize: [44, 44],
-      iconAnchor: [22, 22],
+      className: 'pin cam-pin',
+      html: `<img src="${model.icon}" alt=""><span class="cam-name">${model.name}</span>`,
+      iconSize: [64, 56],
+      iconAnchor: [32, 28],
     });
-    const marker = L.marker([pin.lat, pin.lng], { icon, title: `${pin.place} 작례`, photo: pin.photo });
+    const marker = L.marker([pin.lat, pin.lng], { icon, title: `${model.name} · ${pin.place}`, model: pin.model });
     marker.on('click', () => onPinSelect(pin));
     return { pin, marker };
   });
 
-  // 가까운 핀은 첫 사진 + 장수 배지로 묶고, 누르면 확대(최대 줌에서는 펼침)
+  // 가까운 핀은 카메라 디자인(최대 3종)을 겹쳐 보여주고 장수 배지로 묶는다. 누르면 확대, 최대 줌에서는 펼쳐져 이름까지 보인다.
   const layer = L.markerClusterGroup({
-    maxClusterRadius: 48,
+    maxClusterRadius: 56,
     showCoverageOnHover: false,
     iconCreateFunction(cluster) {
-      const first = cluster.getAllChildMarkers()[0];
-      const photo = first.options.photo;
+      const ids = [...new Set(cluster.getAllChildMarkers().map((m) => m.options.model))].slice(0, 3);
+      const imgs = ids.map((id) => `<img src="${MODEL_BY_ID.get(id).icon}" alt="">`).join('');
       return L.divIcon({
-        className: 'pin marker-cluster',
-        html: `<img src="${photo}" alt="" onerror="this.onerror=null;this.src='${FALLBACK_PHOTO}'"><span class="pin-count">${cluster.getChildCount()}</span>`,
-        iconSize: [44, 44],
-        iconAnchor: [22, 22],
+        className: 'pin cam-cluster marker-cluster',
+        html: `<span class="cam-stack n${ids.length}">${imgs}</span><span class="pin-count">${cluster.getChildCount()}</span>`,
+        iconSize: [72, 56],
+        iconAnchor: [36, 28],
       });
     },
   });

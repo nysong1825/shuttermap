@@ -10,10 +10,19 @@ export const PINS = [
     "caption": "동대문에서 네오 디카로 찍은 사진"
   },
   {
-    "id": "neo-동대문-PICT0005",
+    "id": "neo-동대문-PICT0003",
     "place": "동대문",
     "lat": 37.569436,
     "lng": 127.006675,
+    "model": "neo",
+    "photo": "assets/photos/%EB%84%A4%EC%98%A4%20%EB%94%94%EC%B9%B4/%EB%8F%99%EB%8C%80%EB%AC%B8/PICT0003.jpg",
+    "caption": "동대문에서 네오 디카로 찍은 사진"
+  },
+  {
+    "id": "neo-동대문-PICT0005",
+    "place": "동대문",
+    "lat": 37.568851,
+    "lng": 127.007039,
     "model": "neo",
     "photo": "assets/photos/%EB%84%A4%EC%98%A4%20%EB%94%94%EC%B9%B4/%EB%8F%99%EB%8C%80%EB%AC%B8/PICT0005.jpg",
     "caption": "동대문에서 네오 디카로 찍은 사진"
@@ -21,8 +30,8 @@ export const PINS = [
   {
     "id": "neo-동대문-PICT0006",
     "place": "동대문",
-    "lat": 37.568851,
-    "lng": 127.007039,
+    "lat": 37.569478,
+    "lng": 127.007268,
     "model": "neo",
     "photo": "assets/photos/%EB%84%A4%EC%98%A4%20%EB%94%94%EC%B9%B4/%EB%8F%99%EB%8C%80%EB%AC%B8/PICT0006.jpg",
     "caption": "동대문에서 네오 디카로 찍은 사진"
@@ -30,8 +39,8 @@ export const PINS = [
   {
     "id": "neo-동대문-PICT0008",
     "place": "동대문",
-    "lat": 37.569478,
-    "lng": 127.007268,
+    "lat": 37.569139,
+    "lng": 127.006566,
     "model": "neo",
     "photo": "assets/photos/%EB%84%A4%EC%98%A4%20%EB%94%94%EC%B9%B4/%EB%8F%99%EB%8C%80%EB%AC%B8/PICT0008.jpg",
     "caption": "동대문에서 네오 디카로 찍은 사진"
@@ -325,12 +334,12 @@ export const PINS = [
     "caption": "성수에서 플립 디카로 찍은 사진"
   },
   {
-    "id": "flip-성수-IMG00030",
+    "id": "flip-성수-IMG00032",
     "place": "성수",
     "lat": 37.544734,
     "lng": 127.055492,
     "model": "flip",
-    "photo": "assets/photos/%ED%94%8C%EB%A6%BD%20%EB%94%94%EC%B9%B4/%EC%84%B1%EC%88%98/IMG00030.jpg",
+    "photo": "assets/photos/%ED%94%8C%EB%A6%BD%20%EB%94%94%EC%B9%B4/%EC%84%B1%EC%88%98/IMG00032.jpg",
     "caption": "성수에서 플립 디카로 찍은 사진"
   },
   {

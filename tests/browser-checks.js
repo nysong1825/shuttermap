@@ -13,7 +13,12 @@
   const out = {};
 
   // I1: 기본 줌에서 같은 동네(성수동 2장)는 하나의 묶음 아이콘으로 보인다
-  out.clusterAtDefaultZoom = !!d.querySelector('.marker-cluster') && d.querySelectorAll('.pin').length < 6;
+  const { PINS } = await import('/src/data/pins.js');
+  out.clusterAtDefaultZoom = !!d.querySelector('.marker-cluster') && d.querySelectorAll('.pin').length < PINS.length;
+
+  // 핀은 사진이 아니라 카메라 디자인 + 모델 이름
+  out.pinIsCameraWithName = [...d.querySelectorAll('.pin')].every((p) => /assets\/cameras\//.test(p.querySelector('img')?.src ?? ''))
+    && d.querySelectorAll('.pin').length > 0;
 
   // I5: OSM 저작권 표기
   out.osmAttribution = /OpenStreetMap contributors/.test(d.querySelector('.leaflet-control-attribution')?.textContent ?? '');

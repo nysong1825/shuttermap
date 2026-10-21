@@ -46,3 +46,13 @@ test('buildProductUrl keeps percent-encoded Korean slugs intact', () => {
   const out = buildProductUrl({ id: 'classic', productUrl: raw }, 'convert');
   assert.ok(out.startsWith(raw + '?utm_source=shuttermap'), out);
 });
+
+import { existsSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+
+test('every model has a camera icon file that exists', () => {
+  for (const m of MODELS) {
+    assert.match(m.icon, /^assets\/cameras\/[a-z0-9-]+\.png$/, `icon path ${m.id}`);
+    assert.ok(existsSync(fileURLToPath(new URL('../' + m.icon, import.meta.url))), `missing ${m.icon}`);
+  }
+});
