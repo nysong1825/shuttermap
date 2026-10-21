@@ -153,11 +153,10 @@
         </div>
 
         <div class="convert-result" hidden>
-          <div class="compare" style="--pos: 20%">
-            <span class="compare-label compare-label-left">원본</span>
-            <span class="compare-label compare-label-right">필터</span>
+          <button type="button" class="original-toggle" aria-pressed="false">원본</button>
+          <div class="compare">
+            <span class="compare-label">필터 적용</span>
           </div>
-          <input class="compare-slider" type="range" min="0" max="100" value="20" aria-label="원본과 필터 비교">
           <div class="convert-actions">
             <button type="button" class="btn btn-primary convert-save">저장하기</button>
             <a class="btn btn-secondary convert-product" target="_blank" rel="noopener"></a>

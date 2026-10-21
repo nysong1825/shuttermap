@@ -49,7 +49,8 @@ export function initConvert(root, { onConvert = () => {}, onProductClick = () =>
   const result = root.querySelector('.convert-result');
   const chips = root.querySelector('.convert-chips');
   const compare = root.querySelector('.compare');
-  const slider = root.querySelector('.compare-slider');
+  const toggle = root.querySelector('.original-toggle');
+  const label = root.querySelector('.compare-label');
   const productLink = root.querySelector('.convert-product');
   const saveBtn = root.querySelector('.convert-save');
   const overlay = root.querySelector('.save-overlay');
@@ -104,12 +105,17 @@ export function initConvert(root, { onConvert = () => {}, onProductClick = () =>
     }
     empty.hidden = true;
     result.hidden = false;
+    setOriginal(false);
     render();
   });
 
-  slider.addEventListener('input', () => {
-    compare.style.setProperty('--pos', `${slider.value}%`);
-  });
+  // 기본은 필터 적용 사진. [원본]을 누르면 원본, 다시 누르면 필터 사진으로 돌아간다.
+  function setOriginal(on) {
+    compare.classList.toggle('show-original', on);
+    toggle.setAttribute('aria-pressed', String(on));
+    label.textContent = on ? '원본' : '필터 적용';
+  }
+  toggle.addEventListener('click', () => setOriginal(toggle.getAttribute('aria-pressed') !== 'true'));
 
   productLink.addEventListener('click', () => onProductClick(modelId));
 

@@ -226,18 +226,8 @@ main {
 
 .compare { position: relative; border-radius: var(--radius); overflow: hidden; background: #000; }
 .compare canvas { display: block; width: 100%; height: auto; }
-.compare .compare-filtered { position: absolute; inset: 0; clip-path: inset(0 0 0 var(--pos)); }
-.compare::after {
-  content: '';
-  position: absolute;
-  top: 0; bottom: 0;
-  left: var(--pos);
-  width: 2px;
-  margin-left: -1px;
-  background: #fff;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
-  pointer-events: none;
-}
+.compare .compare-filtered { position: absolute; inset: 0; }
+.compare.show-original .compare-filtered { visibility: hidden; }
 .compare-label {
   position: absolute;
   top: 10px;
@@ -249,9 +239,16 @@ main {
   font-size: 12px;
   font-weight: 600;
 }
-.compare-label-left { left: 10px; }
-.compare-label-right { right: 10px; }
-.compare-slider { width: 100%; margin: 12px 0; accent-color: var(--accent); min-height: 44px; }
+.compare-label { left: 10px; }
+.original-toggle {
+  display: block;
+  min-height: 40px; margin: 0 0 10px; padding: 0 18px;
+  border: 1px solid var(--line); border-radius: 999px;
+  background: var(--surface); color: var(--text);
+  font: inherit; font-size: 14px; font-weight: 700;
+}
+.original-toggle[aria-pressed="true"] { background: var(--text); color: #fff; border-color: var(--text); }
+.convert-actions { margin-top: 12px; }
 .convert-actions { display: grid; grid-template-columns: 1fr; gap: 8px; }
 .convert-notice { margin: 16px 0 0; font-size: 12px; color: var(--text-2); text-align: center; }
 
