@@ -5,6 +5,7 @@ import { initSheet, openSheet } from './sheet.js';
 import { initConvert } from './convert.js';
 import { initOnboarding } from './onboarding.js';
 import { matchModels } from './taste.js';
+import { initTasteCard } from './tasteCard.js';
 import { initAnalytics, track } from './track.js';
 import { GA4_MEASUREMENT_ID } from './config.js';
 
@@ -66,22 +67,56 @@ mapView = initMap(document.getElementById('map'), PINS, (pin) => {
   openSheet(pin, tryModel);
 });
 // 내 취향 칩: 온보딩에서 고른 취향과 3개 중 2개 이상 일치하는 카메라만 지도에 보인다.
+// 칩을 누르면 가장 잘 맞는 카메라 1대를 카드로 보여주고 제품 보기로 이어준다.
+const MODEL_BY_ID = new Map(MODELS.map((m) => [m.id, m]));
 let myTasteIds = [];
+const tasteCard = initTasteCard(document.getElementById('taste-card'), {
+  onProductClick: (modelId) => track('product_click', { model: modelId, from: 'taste_top' }),
+});
 const chips = renderModelChips(document.getElementById('chips'), MODELS, (id) => {
   mapView.setModelFilter(id === 'mine' ? myTasteIds : id);
+  tasteCard.show(id === 'mine');
   if (id === 'mine') track('my_taste_filter', { models: myTasteIds.join(',') });
 });
 
 const PROFILE_KEY = 'shuttermap_profile';
+const PROFILE_FIELDS = ['design', 'look', 'price', 'gender', 'birthYear'];
+
+function loadProfile() {
+  try {
+    const p = JSON.parse(localStorage.getItem(PROFILE_KEY));
+    return p && PROFILE_FIELDS.every((k) => p[k]) ? p : null;
+  } catch {
+    return null;
+  }
+}
+
+const retaste = document.querySelector('.retaste');
+
+// 지도 진입: 온보딩을 닫고 취향을 반영한다. 처음에는 항상 '전체'를 보여준다.
+function showMap(profile) {
+  document.getElementById('intro').hidden = true; // 온보딩 뒤 소개 팝업 겹침 방지
+  document.getElementById('onboarding').hidden = true;
+  showScreen('map');
+  const matches = matchModels(MODELS, profile);
+  myTasteIds = matches.map((r) => r.id);
+  tasteCard.setTop(MODEL_BY_ID.get(matches[0]?.id) ?? null, profile);
+  chips.enableMine();
+  chips.select('all');
+  retaste.hidden = false;
+}
 
 function enterMap(profile) {
   try { localStorage.setItem(PROFILE_KEY, JSON.stringify(profile)); } catch {}
   track('onboarding_complete', { ...profile });
-  document.getElementById('intro').hidden = true; // 온보딩 직후 소개 팝업 겹침 방지
-  document.getElementById('onboarding').hidden = true;
-  showScreen('map');
-  myTasteIds = matchModels(MODELS, profile).map((r) => r.id);
-  chips.enableMine();
-  chips.select('mine');
+  showMap(profile);
 }
-initOnboarding(document.getElementById('onboarding'), { onComplete: enterMap });
+
+// 재방문이면 스플래시 뒤 바로 지도로, 취향은 '취향 다시 고르기'로 바꾼다.
+const savedProfile = loadProfile();
+const onboarding = initOnboarding(document.getElementById('onboarding'), {
+  onComplete: enterMap,
+  hasProfile: Boolean(savedProfile),
+  onSkip: () => showMap(savedProfile),
+});
+retaste.addEventListener('click', () => onboarding.reopen(loadProfile() ?? savedProfile));

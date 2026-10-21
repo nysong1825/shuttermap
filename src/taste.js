@@ -14,3 +14,8 @@ export function matchModels(models, profile) {
     .filter((r) => r.score >= MIN_MATCH)
     .sort((a, b) => b.score - a.score);
 }
+
+// 고른 취향 중 이 카메라와 일치하는 값들 (예: ['귀여움', '레트로'])
+export function matchedLabels(model, profile) {
+  return KEYS.filter((k) => profile[k] && model.taste?.[k] === profile[k]).map((k) => profile[k]);
+}

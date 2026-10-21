@@ -398,6 +398,36 @@ main { top: 0; }
 }
 .onb-cta:disabled { background: #d1d1d6; color: #8e8e93; }
 
-/* 내 취향 칩 (노란색) */
-.chip-mine { background: #ffd60a; border-color: #ffd60a; color: #1d1d1f; }
-.chip-mine[aria-pressed="true"] { background: #ffd60a; color: #1d1d1f; border-color: var(--text); box-shadow: 0 0 0 2px var(--text); }
+/* 내 취향 칩 (은은한 노란색) */
+.chip-mine { background: #fff6c9; border-color: rgba(190, 150, 0, 0.35); color: #1d1d1f; }
+.chip-mine[aria-pressed="true"] { background: #fff6c9; color: #1d1d1f; border-color: var(--text); box-shadow: 0 0 0 1px var(--text); }
+
+/* 취향 다시 고르기 */
+.retaste {
+  margin-left: auto; flex: none;
+  min-height: 32px; padding: 0 12px;
+  border: 1px solid var(--line); border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  font: inherit; font-size: 12px; font-weight: 600; color: var(--text-2);
+}
+.retaste[hidden] { display: none; }
+
+/* 내 취향 추천 카드 */
+.taste-card {
+  position: absolute; left: 12px; right: 12px; bottom: 28px;
+  z-index: 600;
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--line); border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+.taste-card[hidden] { display: none; }
+.taste-card-img { flex: none; width: 64px; height: 56px; object-fit: contain; }
+.taste-card-text { flex: 1; min-width: 0; }
+.taste-card-text p { margin: 0; }
+.taste-card-lead { font-size: 11px; color: var(--text-2); }
+.taste-card-name { margin: 2px 0 !important; font-size: 16px; font-weight: 700; letter-spacing: -0.02em; }
+.taste-card-match { font-size: 12px; color: var(--text-2); }
+.taste-card-link { flex: none; min-height: 40px; padding: 0 14px; font-size: 14px; }

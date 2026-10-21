@@ -96,12 +96,23 @@
   <header class="app-header">
     <h1>셔터맵</h1>
     <p class="subtitle">휴그 카메라 작례 지도</p>
+    <button type="button" class="retaste" hidden>취향 다시 고르기</button>
   </header>
 
   <main>
     <section id="screen-map" class="screen">
       <div id="map" aria-label="작례 지도"></div>
       <div id="chips" class="chips" role="group" aria-label="카메라 모델"></div>
+
+      <div id="taste-card" class="taste-card" hidden>
+        <img class="taste-card-img" alt="">
+        <div class="taste-card-text">
+          <p class="taste-card-lead">나와 가장 잘 맞는 카메라</p>
+          <p class="taste-card-name"></p>
+          <p class="taste-card-match"></p>
+        </div>
+        <a class="btn btn-primary taste-card-link" target="_blank" rel="noopener">제품 보기</a>
+      </div>
 
       <div id="sheet-backdrop" class="sheet-backdrop" hidden></div>
       <div id="sheet" class="sheet" role="dialog" aria-label="작례 사진" hidden>
