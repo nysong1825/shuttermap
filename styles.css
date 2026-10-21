@@ -69,3 +69,87 @@ main {
   min-height: 44px;
 }
 .tabbar button[aria-current="page"] { color: var(--accent); }
+
+/* 모델 칩 */
+.chips {
+  position: absolute;
+  top: 12px; left: 0; right: 0;
+  z-index: 500;
+  display: flex;
+  gap: 8px;
+  padding: 0 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.chips::-webkit-scrollbar { display: none; }
+.chip {
+  flex: none;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--chip-bg);
+  backdrop-filter: blur(12px);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+.chip[aria-pressed="true"] { background: var(--text); color: #fff; border-color: var(--text); }
+
+/* 사진 핀 */
+.pin img {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  background: #e8e8ed;
+}
+
+/* 하단 시트 */
+.sheet-backdrop { position: absolute; inset: 0; z-index: 900; background: rgba(0, 0, 0, 0.25); }
+.sheet {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  z-index: 950;
+  max-height: 85%;
+  overflow-y: auto;
+  background: var(--surface);
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.15);
+}
+.sheet[hidden], .sheet-backdrop[hidden] { display: none; }
+.sheet-photo { display: block; width: 100%; max-height: 50vh; object-fit: cover; background: #e8e8ed; }
+.sheet-close {
+  position: absolute;
+  top: 10px; right: 10px;
+  width: 36px; height: 36px;
+  border: 0; border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-size: 22px;
+  line-height: 1;
+}
+.sheet-body { padding: 16px; }
+.sheet-meta { margin: 0 0 4px; font-size: 13px; color: var(--text-2); font-weight: 600; }
+.sheet-caption { margin: 0 0 16px; font-size: 16px; }
+.sheet-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 12px;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-secondary { background: #e8e8ed; color: var(--text); }

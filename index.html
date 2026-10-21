@@ -17,6 +17,21 @@
   <main>
     <section id="screen-map" class="screen">
       <div id="map" aria-label="작례 지도"></div>
+      <div id="chips" class="chips" role="group" aria-label="카메라 모델"></div>
+
+      <div id="sheet-backdrop" class="sheet-backdrop" hidden></div>
+      <div id="sheet" class="sheet" role="dialog" aria-label="작례 사진" hidden>
+        <button type="button" class="sheet-close" aria-label="닫기">×</button>
+        <img class="sheet-photo" alt="">
+        <div class="sheet-body">
+          <p class="sheet-meta"><span class="sheet-model"></span> · <span class="sheet-place"></span></p>
+          <p class="sheet-caption"></p>
+          <div class="sheet-actions">
+            <button type="button" class="btn btn-primary sheet-try">내 사진도 이 느낌으로</button>
+            <a class="btn btn-secondary sheet-product" target="_blank" rel="noopener">제품 보기</a>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section id="screen-convert" class="screen" hidden>

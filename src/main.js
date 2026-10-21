@@ -1,4 +1,10 @@
+import { MODELS } from './data/models.js';
+import { PINS } from './data/pins.js';
+import { initMap, renderModelChips } from './map.js';
+import { initSheet, openSheet } from './sheet.js';
+
 const SCREENS = ['map', 'convert'];
+let mapView;
 
 export function showScreen(name) {
   for (const s of SCREENS) {
@@ -8,14 +14,17 @@ export function showScreen(name) {
     if (btn.dataset.screen === name) btn.setAttribute('aria-current', 'page');
     else btn.removeAttribute('aria-current');
   }
+  if (name === 'map') mapView?.invalidate();
 }
 
 for (const btn of document.querySelectorAll('.tabbar button')) {
   btn.addEventListener('click', () => showScreen(btn.dataset.screen));
 }
 
-const map = L.map('map').setView([37.5445, 127.0], 12);
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom: 19,
-  attribution: '&copy; OpenStreetMap',
-}).addTo(map);
+function tryModel(modelId) {
+  showScreen('convert');
+}
+
+initSheet();
+mapView = initMap(document.getElementById('map'), PINS, (pin) => openSheet(pin, tryModel));
+renderModelChips(document.getElementById('chips'), MODELS, (id) => mapView.setModelFilter(id));
