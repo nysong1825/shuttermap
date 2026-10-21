@@ -186,12 +186,17 @@ main {
 .sheet-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .sheet-body { padding: 16px; }
 .sheet-meta { margin: 0 0 4px; font-size: 13px; color: var(--text-2); font-weight: 600; }
-.sheet-tags { margin: 0 0 16px; font-size: 16px; font-weight: 600; color: var(--accent); }
-.sheet-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-items: end; }
-.sheet-buy { display: flex; flex-direction: column; gap: 6px; }
-/* 제품 보기보다 작은 사고 싶어요 버튼 */
-.sheet-buy .sheet-want { min-height: 32px; padding: 0 12px; font-size: 13px; background: #fff; color: var(--accent); border: 1.5px solid var(--accent); border-radius: 12px; }
-.sheet-buy .sheet-want:disabled { opacity: 0.6; }
+.sheet-tagrow { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 0 0 16px; }
+/* 해시태그 줄 오른쪽 끝에 붙는 작은 버튼: 태그 줄이 위로 밀리지 않음 */
+.sheet-want {
+  flex: none; min-height: 28px; padding: 0 10px;
+  border: 1.5px solid var(--accent); border-radius: 999px;
+  background: #fff; color: var(--accent);
+  font: inherit; font-size: 12px; font-weight: 700; white-space: nowrap; cursor: pointer;
+}
+.sheet-want:disabled { opacity: 0.6; }
+.sheet-tags { margin: 0; font-size: 16px; font-weight: 600; color: var(--accent); }
+.sheet-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 
 .btn {
   display: inline-flex;
