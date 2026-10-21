@@ -293,7 +293,6 @@ main {
 
 /* 깔끔한 지도: 색은 살리되 채도·대비를 낮춰 핀이 돋보이게 */
 .leaflet-container { background: #eef0f2; }
-.map-tiles { filter: saturate(0.8) contrast(0.92) brightness(1.05); }
 .leaflet-control-attribution { font-size: 10px; background: rgba(255, 255, 255, 0.7) !important; }
 
 /* 지도 위에 떠 있는 반투명 헤더 */

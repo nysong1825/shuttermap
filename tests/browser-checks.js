@@ -21,7 +21,7 @@
     && d.querySelectorAll('.pin').length > 0;
 
   // I5: OSM 저작권 표기
-  out.osmAttribution = /OpenStreetMap contributors/.test(d.querySelector('.leaflet-control-attribution')?.textContent ?? '');
+  out.osmAttribution = /OpenStreetMap/.test(d.querySelector('.leaflet-control-attribution')?.textContent ?? '');
 
   // 공통: 사진 넣기 도우미
   const input = d.querySelector('.convert-input');

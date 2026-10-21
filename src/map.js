@@ -16,10 +16,10 @@ export function initMap(el, pins, onPinSelect) {
   });
   map.fitBounds(region);
   map.setMinZoom(map.getZoom());
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: MAX_ZOOM,
-    className: 'map-tiles',
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors',
+  // 벡터 타일(OpenFreeMap Positron): 회색조 미니멀이라 컬러 카메라 핀이 돋보인다.
+  L.maplibreGL({
+    style: 'https://tiles.openfreemap.org/styles/positron',
+    attribution: '<a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> &copy; <a href="https://www.openmaptiles.org/" target="_blank" rel="noopener">OpenMapTiles</a> Data from <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>',
   }).addTo(map);
 
   // 핀 = 해당 작례를 찍은 카메라 디자인 + 이름
