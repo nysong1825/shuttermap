@@ -100,7 +100,13 @@ main {
 
 /* 카메라 핀: 카메라 디자인 + 이름 */
 .pin { background: none; border: 0; }
-.cam-pin { display: flex; flex-direction: column; align-items: center; }
+.pin-inner {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center;
+  transform: scale(var(--icon-scale, 1));
+}
+.cam-pin .pin-inner { transform-origin: 52px 46px; }
+.cam-cluster .pin-inner { transform-origin: 60px 40px; }
 .cam-pin img {
   display: block;
   height: auto; max-height: 100px;
