@@ -19,7 +19,6 @@ function showPhoto(i) {
   img.onerror = () => { img.onerror = null; img.src = FALLBACK_PHOTO; };
   img.src = p.photo;
   img.alt = p.caption;
-  el.querySelector('.sheet-caption').textContent = p.caption;
   el.querySelector('.sheet-count').textContent = `${current + 1} / ${photos.length}`;
   for (const [n, t] of [...el.querySelectorAll('.sheet-thumb')].entries()) {
     t.setAttribute('aria-current', String(n === current));
@@ -32,6 +31,7 @@ export function openSheet(pin, onTry) {
   photos = pin.photos?.length ? pin.photos : [pin];
   el.querySelector('.sheet-model').textContent = model?.name ?? '';
   el.querySelector('.sheet-place').textContent = pin.place;
+  el.querySelector('.sheet-tags').textContent = (model?.tags ?? []).map((t) => `#${t}`).join(' ');
 
   const multi = photos.length > 1;
   for (const b of el.querySelectorAll('.sheet-nav, .sheet-count, .sheet-thumbs')) b.hidden = !multi;

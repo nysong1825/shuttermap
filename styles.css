@@ -186,7 +186,7 @@ main {
 .sheet-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .sheet-body { padding: 16px; }
 .sheet-meta { margin: 0 0 4px; font-size: 13px; color: var(--text-2); font-weight: 600; }
-.sheet-caption { margin: 0 0 16px; font-size: 16px; }
+.sheet-tags { margin: 0 0 16px; font-size: 16px; font-weight: 600; color: var(--accent); }
 .sheet-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 
 .btn {
