@@ -16,3 +16,8 @@ export function track(name, params = {}) {
   console.info(name, params);
   if (typeof window.gtag === 'function') window.gtag('event', name, params);
 }
+
+// GA4 사용자 속성: 한 번 정해 두면 이후 모든 이벤트(핀 열기·제품 클릭·사고 싶어요 등)를 취향별로 나눠 볼 수 있다.
+export function setUserProps(props) {
+  if (typeof window.gtag === 'function') window.gtag('set', 'user_properties', props);
+}

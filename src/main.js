@@ -6,7 +6,7 @@ import { initConvert } from './convert.js';
 import { initOnboarding } from './onboarding.js';
 import { matchModels } from './taste.js';
 import { initTasteCard } from './tasteCard.js';
-import { initAnalytics, track } from './track.js';
+import { initAnalytics, track, setUserProps } from './track.js';
 import { GA4_MEASUREMENT_ID } from './config.js';
 
 initAnalytics(GA4_MEASUREMENT_ID);
@@ -84,8 +84,22 @@ mapView = initMap(document.getElementById('map'), PINS, (pin) => {
 // 칩을 누르면 가장 잘 맞는 카메라 1대를 카드로 보여주고 제품 보기로 이어준다.
 const MODEL_BY_ID = new Map(MODELS.map((m) => [m.id, m]));
 let myTasteIds = [];
+let currentProfile = null;
+// 취향 분석용 공통 값: 이벤트마다 붙여서 "이 취향의 사람이 어떤 카메라를 좋아하나"를 볼 수 있게 한다.
+function tasteParams(profile) {
+  if (!profile) return {};
+  const age = new Date().getFullYear() - Number(profile.birthYear);
+  return {
+    taste_design: profile.design,
+    taste_look: profile.look,
+    taste_price: profile.price,
+    gender: profile.gender,
+    age_group: age >= 10 && age < 100 ? `${Math.floor(age / 10) * 10}대` : '',
+  };
+}
 const tasteCard = initTasteCard(document.getElementById('taste-card'), {
-  onProductClick: (modelId) => track('product_click', { model: modelId, from: 'taste_top' }),
+  onProductClick: (modelId) => track('product_click', { model: modelId, from: 'taste_top', ...tasteParams(currentProfile) }),
+  onWant: (modelId) => track('want_to_buy', { model: modelId, from: 'taste_top', ...tasteParams(currentProfile) }),
 });
 const chips = renderModelChips(document.getElementById('chips'), MODELS, (id) => {
   mapView.setModelFilter(id === 'mine' ? myTasteIds : id);
@@ -109,6 +123,8 @@ const retaste = document.querySelector('.retaste');
 
 // 지도 진입: 온보딩을 닫고 취향을 반영한다. 처음에는 항상 '전체'를 보여준다.
 function showMap(profile) {
+  currentProfile = profile;
+  setUserProps(tasteParams(profile)); // 이후 모든 이벤트를 취향별로 나눠 볼 수 있다
   document.getElementById('intro').hidden = true; // 온보딩 뒤 소개 팝업 겹침 방지
   document.getElementById('onboarding').hidden = true;
   showScreen('map');
@@ -122,7 +138,14 @@ function showMap(profile) {
 
 function enterMap(profile) {
   try { localStorage.setItem(PROFILE_KEY, JSON.stringify(profile)); } catch {}
-  track('onboarding_complete', { ...profile });
+  const matches = matchModels(MODELS, profile);
+  track('onboarding_complete', {
+    ...profile,
+    ...tasteParams(profile),
+    top_model: matches[0]?.id ?? '',
+    top_score: matches[0]?.score ?? 0,
+    match_models: matches.map((r) => r.id).join(','),
+  });
   showMap(profile);
 }
 
