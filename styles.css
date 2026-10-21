@@ -400,7 +400,7 @@ main { top: 0; }
 
 /* 내 취향 칩 (은은한 노란색) */
 .chip-mine { background: #fff6c9; border-color: rgba(190, 150, 0, 0.35); color: #1d1d1f; }
-.chip-mine[aria-pressed="true"] { background: #fff6c9; color: #1d1d1f; border-color: var(--text); box-shadow: 0 0 0 1px var(--text); }
+.chip-mine[aria-pressed="true"] { background: #ffd60a; color: #1d1d1f; border-color: #ffd60a; box-shadow: none; }
 
 /* 취향 다시 고르기 */
 .retaste {
