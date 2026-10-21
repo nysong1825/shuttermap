@@ -115,7 +115,7 @@ export function initConvert(root, { onConvert = () => {}, onProductClick = () =>
   function setOriginal(on) {
     compare.classList.toggle('show-original', on);
     toggle.setAttribute('aria-pressed', String(on));
-    label.textContent = on ? '원본' : '필터 적용';
+    label.textContent = on ? '원본' : '카메라 필터 적용';
   }
   toggle.addEventListener('click', () => setOriginal(toggle.getAttribute('aria-pressed') !== 'true'));
 
