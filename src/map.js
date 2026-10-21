@@ -7,7 +7,7 @@ const REGION = [[37.40, 126.58], [37.66, 127.16]];
 const MAX_ZOOM = 15; // 동네 단위까지만 확대
 
 // 핀 아이콘 표시 너비(px). 모델마다 사진 비율이 달라서, 본체가 클래식 디카와 비슷한 크기로 보이도록 맞춘다.
-const ICON_WIDTH = { classic: 96, millennium: 96, western: 96, neo: 96, 'retro-digi': 96, flip270: 96, flip: 88, 'retro-flip': 80 };
+const ICON_WIDTH = { classic: 96, millennium: 96, western: 96, neo: 96, 'retro-digi': 96, flip270: 96, flip: 100, 'retro-flip': 80 };
 
 export function initMap(el, pins, onPinSelect) {
   const region = L.latLngBounds(REGION);
