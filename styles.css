@@ -262,3 +262,24 @@ main {
   text-align: center;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 }
+
+/* 깔끔한 지도: 무채색·저대비 타일 위에 사진 핀만 돋보이게 */
+.leaflet-container { background: #eef0f2; }
+.map-tiles { filter: grayscale(1) contrast(0.78) brightness(1.12); }
+.leaflet-control-attribution { font-size: 10px; background: rgba(255, 255, 255, 0.7) !important; }
+
+/* 지도 위에 떠 있는 반투명 헤더 */
+.app-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  height: calc(var(--header-h) + env(safe-area-inset-top));
+  padding-top: calc(8px + env(safe-area-inset-top));
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 0;
+}
+main { top: 0; }
+.chips { top: calc(var(--header-h) + env(safe-area-inset-top) + 10px); }
+.convert { padding-top: calc(var(--header-h) + env(safe-area-inset-top) + 20px); }

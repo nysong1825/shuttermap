@@ -1,4 +1,4 @@
-import { MODELS } from './data/models.js';
+import { MODELS, buildProductUrl } from './data/models.js';
 
 export const FALLBACK_PHOTO = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(
   '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300"><rect width="400" height="300" fill="#e8e8ed"/>' +
@@ -20,7 +20,7 @@ export function openSheet(pin, onTry) {
   el.querySelector('.sheet-caption').textContent = pin.caption;
 
   const link = el.querySelector('.sheet-product');
-  link.href = model?.productUrl ?? 'https://huug.kr/';
+  link.href = model ? buildProductUrl(model, 'sheet') : 'https://huug.kr/';
   link.dataset.model = pin.model;
 
   el.querySelector('.sheet-try').onclick = () => { closeSheet(); onTry(pin.model); };

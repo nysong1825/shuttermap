@@ -1,4 +1,4 @@
-import { MODELS } from './data/models.js';
+import { MODELS, buildProductUrl } from './data/models.js';
 import { applyFilter } from './filters.js';
 import { loadImageToCanvas } from './imageLoad.js';
 
@@ -11,18 +11,22 @@ function isSaveBlocked() {
   return iOS || inApp;
 }
 
-function drawDateStamp(canvas) {
+// 실제 휴그 디카 각인처럼 좌하단에 "YYYY/MM/DD HH:MM:SS"
+const STAMP_COLORS = { yellow: '#ffd21f', white: '#f4f4f4' };
+
+function drawDateStamp(canvas, color) {
   const ctx = canvas.getContext('2d');
   const d = new Date();
-  const text = `'${String(d.getFullYear()).slice(2)} ${String(d.getMonth() + 1).padStart(2, '0')} ${String(d.getDate()).padStart(2, '0')}`;
-  const size = Math.max(14, Math.round(canvas.width * 0.045));
+  const p = (n) => String(n).padStart(2, '0');
+  const text = `${d.getFullYear()}/${p(d.getMonth() + 1)}/${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`;
+  const size = Math.max(12, Math.round(canvas.width * (color === 'yellow' ? 0.04 : 0.022)));
   ctx.font = `bold ${size}px "Courier New", monospace`;
-  ctx.textAlign = 'right';
+  ctx.textAlign = 'left';
   ctx.textBaseline = 'bottom';
-  ctx.shadowColor = 'rgba(255, 120, 0, 0.8)';
-  ctx.shadowBlur = size * 0.4;
-  ctx.fillStyle = '#ffb000';
-  ctx.fillText(text, canvas.width - size, canvas.height - size * 0.8);
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+  ctx.shadowBlur = size * 0.2;
+  ctx.fillStyle = STAMP_COLORS[color];
+  ctx.fillText(text, size * 0.6, canvas.height - size * 0.5);
 }
 
 function renderFiltered(source, model) {
@@ -34,7 +38,7 @@ function renderFiltered(source, model) {
   const img = ctx.getImageData(0, 0, out.width, out.height);
   applyFilter(img.data, out.width, out.height, model.filter, NOISE_SEED);
   ctx.putImageData(img, 0, 0);
-  if (model.filter.dateStamp) drawDateStamp(out);
+  if (model.filter.dateStamp) drawDateStamp(out, model.filter.dateStamp);
   return out;
 }
 
@@ -62,7 +66,7 @@ export function initConvert(root, { onConvert = () => {}, onProductClick = () =>
     for (const b of chips.children) b.setAttribute('aria-pressed', String(b.dataset.model === modelId));
     const model = currentModel();
     productLink.textContent = `이 느낌 → ${model.name} 보기`;
-    productLink.href = model.productUrl;
+    productLink.href = buildProductUrl(model, 'convert');
   }
 
   function render() {

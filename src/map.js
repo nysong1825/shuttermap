@@ -1,11 +1,22 @@
 import { FALLBACK_PHOTO } from './sheet.js';
 
-const SEOUL = [37.5445, 127.0];
+// 지도 범위: 인천~서울~광명. 작례가 없는 지역까지 볼 필요가 없어 이 밖으로는 이동·축소를 막는다.
+const REGION = [[37.40, 126.58], [37.66, 127.16]];
+const MAX_ZOOM = 15; // 동네 단위까지만 확대
 
 export function initMap(el, pins, onPinSelect) {
-  const map = L.map(el, { zoomControl: false }).setView(SEOUL, 12);
+  const region = L.latLngBounds(REGION);
+  const map = L.map(el, {
+    zoomControl: false,
+    maxZoom: MAX_ZOOM,
+    maxBounds: region.pad(0.05),
+    maxBoundsViscosity: 1,
+  });
+  map.fitBounds(region);
+  map.setMinZoom(map.getZoom());
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
+    maxZoom: MAX_ZOOM,
+    className: 'map-tiles',
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors',
   }).addTo(map);
 

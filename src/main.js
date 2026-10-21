@@ -3,7 +3,14 @@ import { PINS } from './data/pins.js';
 import { initMap, renderModelChips } from './map.js';
 import { initSheet, openSheet } from './sheet.js';
 import { initConvert } from './convert.js';
-import { track } from './track.js';
+import { initAnalytics, track } from './track.js';
+import { GA4_MEASUREMENT_ID } from './config.js';
+
+initAnalytics(GA4_MEASUREMENT_ID);
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
 
 const SCREENS = ['map', 'convert'];
 let mapView;

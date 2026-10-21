@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>셔터맵</title>
   <meta name="description" content="휴그 카메라 작례 지도 — 지도에서 작례를 보고 내 사진도 그 느낌으로">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="셔터맵">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.min.css">
   <link rel="stylesheet" href="styles.css">
@@ -53,11 +61,11 @@
         </div>
 
         <div class="convert-result" hidden>
-          <div class="compare" style="--pos: 50%">
+          <div class="compare" style="--pos: 20%">
             <span class="compare-label compare-label-left">원본</span>
             <span class="compare-label compare-label-right">필터</span>
           </div>
-          <input class="compare-slider" type="range" min="0" max="100" value="50" aria-label="원본과 필터 비교">
+          <input class="compare-slider" type="range" min="0" max="100" value="20" aria-label="원본과 필터 비교">
           <div class="convert-actions">
             <button type="button" class="btn btn-primary convert-save">저장하기</button>
             <a class="btn btn-secondary convert-product" target="_blank" rel="noopener"></a>
