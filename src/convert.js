@@ -54,6 +54,8 @@ export function initConvert(root, { onConvert = () => {}, onProductClick = () =>
   const productLink = root.querySelector('.convert-product');
   const saveBtn = root.querySelector('.convert-save');
   const overlay = root.querySelector('.save-overlay');
+  // 화면 컨테이너 안에 두면 위쪽 헤더·아래 탭바 뒤에 깔려 글자가 잘려 보이므로 body 바로 아래로 옮긴다.
+  document.body.append(overlay);
 
   let source = null;
   let filtered = null;
