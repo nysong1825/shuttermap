@@ -245,3 +245,20 @@ main {
 .intro-lead { margin: 0 0 12px; font-size: 16px; line-height: 1.5; }
 .intro-card ul { margin: 0 0 20px; padding-left: 18px; color: var(--text-2); font-size: 13px; line-height: 1.6; }
 .intro-start { width: 100%; }
+
+/* 묶음 핀 장수 배지 */
+.pin.marker-cluster { background: none; }
+.pin-count {
+  position: absolute;
+  top: -6px; right: -6px;
+  min-width: 22px; height: 22px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 22px;
+  text-align: center;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}

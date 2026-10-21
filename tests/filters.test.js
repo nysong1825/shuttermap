@@ -77,3 +77,15 @@ test('fitWithin keeps 800x600', () => {
 test('fitWithin shrinks portrait 3000x4000 to 1200x1600', () => {
   assert.deepEqual(fitWithin(3000, 4000, 1600), { width: 1200, height: 1600 });
 });
+
+import { isAcceptedImage } from '../src/imageLoad.js';
+
+test('isAcceptedImage accepts jpg/png by type, and by extension when type is empty', () => {
+  assert.equal(isAcceptedImage({ type: 'image/jpeg', name: 'a.jpg' }), true);
+  assert.equal(isAcceptedImage({ type: 'image/png', name: 'a.png' }), true);
+  assert.equal(isAcceptedImage({ type: '', name: 'IMG_0001.JPG' }), true);
+  assert.equal(isAcceptedImage({ type: '', name: 'photo.jpeg' }), true);
+  assert.equal(isAcceptedImage({ type: '', name: 'notes.txt' }), false);
+  assert.equal(isAcceptedImage({ type: 'text/plain', name: 'a.txt' }), false);
+  assert.equal(isAcceptedImage(null), false);
+});

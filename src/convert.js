@@ -68,6 +68,7 @@ export function initConvert(root, { onConvert = () => {}, onProductClick = () =>
   function render() {
     syncChips();
     if (!source) return;
+    if (filtered) filtered.width = 0; // iOS 캔버스 메모리 한도 대비: 이전 결과 즉시 해제
     filtered = renderFiltered(source, currentModel());
     filtered.className = 'compare-filtered';
     source.className = 'compare-original';
@@ -110,23 +111,21 @@ export function initConvert(root, { onConvert = () => {}, onProductClick = () =>
 
   saveBtn.addEventListener('click', () => {
     if (!filtered) return;
-    filtered.toBlob((blob) => {
-      const url = URL.createObjectURL(blob);
-      if (isSaveBlocked()) {
-        overlay.querySelector('img').src = url;
-        overlay.hidden = false;
-        return;
-      }
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `shuttermap_${modelId}.png`;
-      a.click();
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
-    }, 'image/png');
+    // data: URL — 안드로이드 인앱 브라우저의 길게 눌러 저장은 blob: URL을 못 받는 경우가 많다
+    const url = filtered.toDataURL('image/jpeg', 0.9);
+    if (isSaveBlocked()) {
+      overlay.querySelector('img').src = url;
+      overlay.hidden = false;
+      return;
+    }
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `shuttermap_${modelId}.jpg`;
+    a.click();
   });
 
   overlay.querySelector('.save-overlay-close').addEventListener('click', () => {
-    URL.revokeObjectURL(overlay.querySelector('img').src);
+    overlay.querySelector('img').removeAttribute('src');
     overlay.hidden = true;
   });
 
